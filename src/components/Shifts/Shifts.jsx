@@ -2,12 +2,15 @@
 import React, { useEffect, useState, useContext } from "react";
 import axios from "../../Axios/axios"; // your configured instance
 import TokenContext from "../../context/TokenContext";
+import { useNavigate } from "react-router-dom";
 
 export default function Shifts() {
   const { userToken, user } = useContext(TokenContext);
   const [shifts, setShifts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchShifts = async () => {
@@ -133,7 +136,7 @@ const getStatus = (shift) => {
                 </td>
                 <td style={{ padding: "0.5rem" }}>
                   <button
-                    onClick={() => (window.location.href = `/shifts/${shift._id}`)}
+                    onClick={() => navigate(`/shifts/${shift._id}`)}
                     style={{
                       padding: "0.25rem 0.5rem",
                       border: "1px solid #2563eb",

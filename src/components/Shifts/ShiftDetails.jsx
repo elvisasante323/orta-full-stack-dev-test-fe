@@ -51,7 +51,7 @@ export default function ShiftDetails() {
   if (!shift) return <p>Shift not found</p>;
 
   return (
-    <div className="max-w-xl mx-auto bg-white shadow rounded-lg p-6">
+    <div className="mt-10 max-w-xl mx-auto bg-white shadow rounded-lg p-6">
       <h2 className="text-xl font-semibold mb-2">{shift.title}</h2>
       <p className="text-gray-600 mb-4">
         {new Date(shift.date).toLocaleDateString("en-US", {

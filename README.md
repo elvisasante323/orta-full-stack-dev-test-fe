@@ -63,9 +63,11 @@ It follows a modular structure of an Model View Controller (MVC) application.
    - Data stored in **state** and re-rendered in components.
 
 ### Folder Structure (Simplified)
+```
 src/
 ├─ components/
 │ └─ shifts/
 │ ├─ Shift.jsx # Displays list of shifts
 │ ├─ CreateShift.jsx # Handles creating/updating shifts
 │ └─ ShiftDetails.jsx # Reusable UI card for a single shift
+```

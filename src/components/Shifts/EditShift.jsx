@@ -16,19 +16,23 @@ export default function EditShift() {
     startTime: "",
     finishTime: "",
     date: "",
-    location: "",
+    location: "", // location ID
+    locationName: "",
+    locationPostCode: "",
   });
+
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
 
-  // Fetch existing shift
+  // Fetch existing shift + location
   useEffect(() => {
     const fetchShift = async () => {
       try {
         const { data } = await axios.get(`/shifts/${id}`, {
           headers: { Authorization: `Bearer ${userToken}` },
         });
+
         setForm({
           title: data.title || "",
           role: data.role || "",
@@ -36,8 +40,9 @@ export default function EditShift() {
           startTime: data.startTime || "",
           finishTime: data.finishTime || "",
           date: data.date ? data.date.split("T")[0] : "",
+          location: data.location?._id || "",
           locationName: data.location?.name || "",
-          locationPostcode: data.location?.postCode || "",
+          locationPostCode: data.location?.postCode || "",
         });
       } catch (err) {
         console.error(err);
@@ -62,6 +67,7 @@ export default function EditShift() {
     setError(null);
 
     try {
+      // Update the shift itself
       await axios.put(
         `/shifts/${id}`,
         {
@@ -76,6 +82,18 @@ export default function EditShift() {
         },
         { headers: { Authorization: `Bearer ${userToken}` } }
       );
+
+      // Update the location document
+      if (form.location) {
+        await axios.put(
+          `/shifts/locations/${form.location}`,
+          {
+            name: form.locationName,
+            postCode: form.locationPostCode,
+          },
+          { headers: { Authorization: `Bearer ${userToken}` } }
+        );
+      }
 
       navigate(`/shifts/${id}`); // go back to details page
     } catch (err) {
@@ -95,6 +113,7 @@ export default function EditShift() {
       {error && <p className="text-red-500 mb-3">{error}</p>}
 
       <form onSubmit={handleSubmit} className="space-y-4">
+        {/* Shift fields */}
         <div>
           <label className="block text-sm font-medium">Title</label>
           <input
@@ -168,30 +187,38 @@ export default function EditShift() {
           </div>
         </div>
 
+        {/* Location fields */}
         <div>
-          <label className="block text-sm font-medium">Location name</label>
+          <label className="block text-sm font-medium">Location Name</label>
           <input
             type="text"
-            name="location"
+            name="locationName"
             value={form.locationName}
             onChange={handleChange}
             required
-            placeholder="Enter name of the location"
             className="mt-1 block w-full border border-gray-300 rounded-md p-2"
           />
         </div>
 
+        <div>
+          <label className="block text-sm font-medium">Location Postcode</label>
+          <input
+            type="text"
+            name="locationPostCode"
+            value={form.locationPostCode}
+            onChange={handleChange}
+            className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+          />
+        </div>
 
         <div>
-          <label className="block text-sm font-medium">Location postcode</label>
+          <label className="block text-sm font-medium">Location ID</label>
           <input
             type="text"
             name="location"
-            value={form.locationPostcode}
-            onChange={handleChange}
-            required
-            placeholder="Enter postcode of location"
-            className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+            value={form.location}
+            disabled
+            className="mt-1 block w-full border border-gray-300 rounded-md p-2 bg-gray-100"
           />
         </div>
 

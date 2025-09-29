@@ -66,8 +66,8 @@ export default function ShiftDetails() {
 
       <div className="mb-4">
         <h3 className="font-medium">Location</h3>
-        <p>{shift.location?.name || "N/A"}</p>
-        <p>{shift.location?.postCode || ""}</p>
+        <p>Name {shift.location?.name || "N/A"}{" "}</p>
+        <p>Postcode {shift.location?.postCode ? `(${shift.location.postCode})` : ""}</p>
       </div>
 
       <div className="border rounded-md p-4 mb-4 text-center bg-gray-50">

@@ -34,5 +34,38 @@
    ```
 
 
+## Architecture Overview – Shift Feature
 
-   
+The **Shift feature** is designed to handle scheduling, assignment, and management of work shifts within the application.  
+It follows a modular structure of an Model View Controller (MVC) application.
+
+### High-Level Flow
+1. **UI Layer (Components)**
+   - Components render the shift schedule, creation forms, and assignment views.
+   - React hooks are used to manage state and trigger updates based on user interaction.
+
+2. **State Management**
+   - Local state (React hooks) manages form inputs and temporary UI states.
+
+3. **API Integration**
+   - API calls are made through a dedicated  library called **Axios**.
+   - Environment variables define the base URL for API requests.
+   - Backend endpoints handle CRUD operations for shifts:
+     - **Create** new shift
+     - **Read** shifts (list / details)
+     - **Update** existing shift
+     - **Delete** shift
+
+4. **Data Flow**
+   - User interacts with **Shift UI components** →  
+   - Triggers **Shift Service API calls** →  
+   - Backend responds with shift data →  
+   - Data stored in **state** and re-rendered in components.
+
+### Folder Structure (Simplified)
+src/
+├─ components/
+│ └─ shifts/
+│ ├─ Shift.jsx # Displays list of shifts
+│ ├─ CreateShift.jsx # Handles creating/updating shifts
+│ └─ ShiftDetails.jsx # Reusable UI card for a single shift

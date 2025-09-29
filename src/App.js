@@ -14,6 +14,7 @@ import axios from "./Axios/axios.js";
 import Shifts from "./components/Shifts/Shifts";
 import CreateShift from "./components/Shifts/CreateShift.jsx";
 import ShiftDetails from "./components/Shifts/ShiftDetails.jsx";
+import EditShift from "./components/Shifts/EditShift.jsx";
 
 function App() {
   const storedToken = JSON.parse(localStorage.getItem("authToken"));
@@ -49,6 +50,10 @@ function App() {
             <Route
               path="create-shift"
               element={userToken ? <CreateShift /> : <Navigate to="/login" />}
+            />
+            <Route
+            path="shifts/:id/edit"
+            element={userToken ? <EditShift /> : <Navigate to="/login" />}
             />
             <Route
             path="shifts/:id"
